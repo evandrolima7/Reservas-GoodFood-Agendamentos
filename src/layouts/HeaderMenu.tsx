@@ -28,7 +28,7 @@ export const HeaderMenu = () => {
                         
                         <div className="hidden md:flex space-x-2">
                             <Link 
-                                to="/" 
+                                to="/home" 
                                 className="text-gray-300 transition-colors py-2 px-3 rounded-lg hover:bg-gray-800 text-white md:no-underline md:text-xl"
                             >
                                 Dashboard
@@ -108,7 +108,7 @@ export const HeaderMenu = () => {
         </div>
 
         <div className="p-4 space-y-4">
-        <Link to="/" className="block text-gray-300 hover:text-amber-400 transition-colors py-2 px-3 rounded-lg hover:bg-gray-800 text-white no-underline">
+        <Link to="/home" className="block text-gray-300 hover:text-amber-400 transition-colors py-2 px-3 rounded-lg hover:bg-gray-800 text-white no-underline">
             Dashboard
           </Link>
           <Link to="/add" className="block text-gray-300 hover:text-amber-400 transition-colors py-2 px-3 rounded-lg hover:bg-gray-800 text-white no-underline">

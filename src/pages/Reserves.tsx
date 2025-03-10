@@ -68,10 +68,9 @@ export const Reserves = () => {
   }
 
   const getLocalDateFromUTC = (dateStr: string): Date | null => {
-    const utcDate = new Date(dateStr); // analisa a string como UTC
-    if (isNaN(utcDate.getTime())) return null; // se a data for inválida, retorna null
+    const utcDate = new Date(dateStr);
+    if (isNaN(utcDate.getTime())) return null; 
   
-    // Cria uma nova data usando os componentes UTC – assim, ignoramos o deslocamento
     return new Date(
       utcDate.getUTCFullYear(),
       utcDate.getUTCMonth(),
@@ -79,18 +78,15 @@ export const Reserves = () => {
     );
   };
 
-  // Filtra as reservas conforme a data selecionada
 const filteredReserves = reserves.filter((res) => {
   const localDate = getLocalDateFromUTC(res.dateReserve);
   if (!localDate) return false;
   
-  // Formata a data "local" para 'yyyy-MM-dd'
   const reservaDate = format(localDate, 'yyyy-MM-dd');
   const selected = format(selectedDate, 'yyyy-MM-dd');
   return reservaDate === selected;
 });
 
-// Cria um conjunto com as datas (no formato yyyy-MM-dd) que possuem reserva
 const reservationDates = new Set(
   reserves.map(res => {
     const localDate = getLocalDateFromUTC(res.dateReserve);
@@ -242,7 +238,6 @@ const reservationDates = new Set(
                   height={'auto'}
                   contentHeight={'auto'}
                   windowResizeDelay={100}
-                  // Callback para personalizar o dia que possui reserva
                   dayCellDidMount={(info) => {
                     const dateStr = format(info.date, 'yyyy-MM-dd', { timeZone: 'America/Sao_Paulo' });
                     if (reservationDates.has(dateStr)) {

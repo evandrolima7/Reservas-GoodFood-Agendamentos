@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const data = await api.loginUser(emailValue, passwordValue);
       if (data.token) {
-        navigate("/");
+        navigate("/home");
       }
     } catch (error: any) {
       setErrorMessage(error.response?.data?.message || "Erro ao realizar login.");
