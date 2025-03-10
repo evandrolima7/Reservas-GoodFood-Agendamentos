@@ -53,7 +53,7 @@ Aplicação full-stack para gestão de reservas em restaurantes, desenvolvida co
 
 1. Clone o repositório:
 
-git clone []
+git clone https://github.com/evandrolima7/Reservas-GoodFood-Agendamentos.git
 cd sistema-reservas-restaurante
 
 Instale as dependências:
