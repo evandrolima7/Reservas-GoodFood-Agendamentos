@@ -29,7 +29,7 @@ const Login = () => {
         <div className="relative px-4 py-0 bg-black mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
           <div className="text-center text-white">
             <div className="m-auto space-x-2 justify-center">
-              <img className="m-auto mt-0" src="/public/images/logo-good-removebg-preview.png" alt="logotipo" />
+              <img className="m-auto mt-0" src="/images/logo-good-removebg-preview.png" alt="logotipo" />
               <h1>Login - Reservas</h1>
               <p className="text-yellow-400">Bem-vindo de volta! Acesse sua conta para gerenciar as reservas.</p>
             </div>

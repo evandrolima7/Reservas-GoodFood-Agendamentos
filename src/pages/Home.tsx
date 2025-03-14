@@ -204,7 +204,7 @@ export const Home = () => {
           </div>
           <div className="mt-8 flex justify-between ml-6 md:flex md:flex-row md:mt-8 md:ml-40 md:mb-20">
             <ButtonAdd />
-            <img className="w-30 mr-10 md:w-50" src="/public/images/calendario.png" alt="calendario.png" />
+            <img className="w-30 mr-10 md:w-50" src="/images/calendario.png" alt="calendario.png" />
           </div>
         </div>
       </div>

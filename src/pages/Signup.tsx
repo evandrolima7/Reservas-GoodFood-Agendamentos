@@ -35,7 +35,7 @@ const Signup = () => {
         <div className="relative px-4 py-0 bg-black mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
           <div className="text-center text-white">
             <div className="m-auto space-x-2 justify-center">
-              <img className="m-auto mt-0 w-40" src="/public/images/logo-good-removebg-preview.png" alt="logotipo" />
+              <img className="m-auto mt-0 w-40" src="/images/logo-good-removebg-preview.png" alt="logotipo" />
               <h1>Registrar usuário</h1>
               <p className="text-yellow-400">Registre-se para poder ter acesso ao gerenciador de reservas.</p>
             </div>
