@@ -12,6 +12,7 @@ import { toZonedTime, format } from 'date-fns-tz'
 import CardClient from '../components/cards/CardClient'
 import ModalDelete from '../components/modals/ModalDelete'
 import ModalEdit from '../components/modals/ModalEdite'
+import Spinner from '../components/spiners/Spinner'
 
 export const Reserves = () => {
     const timeZone = 'America/Sao_Paulo'
@@ -174,15 +175,19 @@ const reservationDates = new Set(
   }, [reserveToEdit])
 
   if (loading) {
-    return <div>Carregando...</div>
+    return (
+      <div className="flex m-auto justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <>
       <HeaderMenu />
-      <div className="md:flex items-start md:p-20 pt-1">
-        <div className="bg-black text-white w-full py-4 md:py-90">
-          <div className="h-full flex flex-col items-center justify-center px-2 sm:px-4">
+      <div className=" md:flex items-start md:p-20 pt-1">
+        <div className="bg-black text-white w-full py-4 ">
+          <div className="flex flex-col items-center justify-center px-2 px-4">
             <div className="flex items-center mb-4 md:mb-6 space-x-2 md:space-x-4">
               <button
                 onClick={() => handleDayChange('left')}
@@ -264,7 +269,7 @@ const reservationDates = new Set(
               {filteredReserves.length === 0 ? (
                 <div className="text-white text-center">Não há reservas para hoje!</div>
               ) : (
-                <div className="w-full md:grid grid-cols-2 gap-4">
+                <div className="w-screen flex scrollbar-thin gap-4 mt-4 bg-black p-3 text-xs overflow-x-scroll md:grid grid-cols-2 md:w-auto gap-4">
                   {filteredReserves
                     .slice()
                     .reverse()

@@ -4,7 +4,6 @@ import CardComponentDash from "../components/cards/CardComponentDash";
 import ButtonAdd from "../components/buttons/ButtonAdd";
 import ButtonRel from "../components/buttons/ButtonRel";
 import { GraphicComponent } from "../components/graphics/GraphicComponent";
-import { GraphicComponentLine } from "../components/graphics/GraphicComponentLine";
 import CardClient from "../components/cards/CardClient";
 import { Header } from "../layouts/Header";
 import { Footer } from "../layouts/Footer";
@@ -17,6 +16,8 @@ import { GraphicComponentPie } from "../components/graphics/GraphicComponentPie"
 import ModalDelete from "../components/modals/ModalDelete";
 import ModalEdit from "../components/modals/ModalEdite";
 import { MenuHome } from "../components/menuHome/MenuHome";
+import { GraphicComponentMonth } from "../components/graphics/GraphicComponentMonth";
+import Spinner from "../components/spiners/Spinner";
 
 export const Home = () => {
   const [reserves, setReserves] = useState<any[]>([]);
@@ -131,9 +132,12 @@ export const Home = () => {
   };
 
   if (loading) {
-    return <div>Carregando...</div>;
+    return (
+      <div className="flex m-auto justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
   }
-
   const cardData = [
     {
       title: "Reservas ativas",
@@ -173,13 +177,21 @@ export const Home = () => {
               />
             ))}
           </div>
-          <div className="md:flex flex-row-2 ml-6">
+          <div className="hidden md:flex flex-row-2 ml-6">
             <GraphicComponent />
             <GraphicComponentPie />
           </div>
-          <div className="md:flex flex-row-2 items-stretch">
-            <GraphicComponentLine />
+          <div className="block md:hidden ">
+            <GraphicComponent />
+            <GraphicComponentPie />
+            <GraphicComponentMonth />
+          </div>
+          <div className="hidden md:flex flex-row-2 items-stretch">
+            <GraphicComponentMonth />
             <ButtonRel />
+          </div>
+          <div className="md:hidden">
+          <ButtonRel />
           </div>
           <p className="text-white text-md ml-6 mt-4 md:text-xl">Últimas reservas:</p>
           <div className="flex scrollbar-thin gap-4 mt-4 bg-black p-3 text-xs overflow-x-scroll text-sm md:gap-10">

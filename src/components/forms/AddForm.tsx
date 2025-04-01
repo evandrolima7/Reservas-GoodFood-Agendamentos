@@ -5,6 +5,7 @@ import { toZonedTime, format } from 'date-fns-tz';
 import SpinnerLoader from "../spiners/SpinnerLoad";
 import ModalDelete from "../modals/ModalDelete";
 import ModalEdit from "../modals/ModalEdite";
+import Spinner from "../spiners/Spinner";
 
 
 export const AddForm = () => {
@@ -130,10 +131,18 @@ export const AddForm = () => {
     setReserveToEdit(null);
   };
 
+  if (loading) {
+    return (
+      <div className="flex m-auto justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
   return (
-    <div className="grid md:flex flex-row">
+    <div className=" md:flex flex-row">
       <div>
-        <div className="flex items-start relative py-5 sm:max-w-xl sm:mx-auto w-full">
+        <div className="flex items-start relative py-5 sm:max-w-xl sm:mx-auto">
           <div className="relative px-4 py-0 bg-black mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
             <div className="text-left text-white md:pl-30 pd-30 mb-20">
               <div className="m-auto text-center space-x-2 justify-center text-2xl md:text-3xl">
@@ -216,9 +225,9 @@ export const AddForm = () => {
       </div>
 
       <div className="justify-center m-auto">
-        <div className="w-full p-1 md:pt-5 h-screen py-0 overflow-y-scroll">
+        <div className="w-full p-1 md:pt-5 max-h-screen py-0 overflow-y-scroll">
           <p className="text-white md:text-3xl mb-5 text-center">Últimas reservas</p>
-          <div className="w-full md:grid grid-cols-2 gap-4">
+          <div className="w-screen flex scrollbar-thin gap-4 mt-4 bg-black p-3 text-xs overflow-x-scroll md:grid grid-cols-2 md:w-auto gap-4">
             {loading ? (
               <div className="ml-40 w-full">
                 <SpinnerLoader />

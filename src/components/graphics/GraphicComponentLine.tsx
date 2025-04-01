@@ -80,7 +80,7 @@ export const GraphicComponentLine = () => {
   };
 
   return (
-    <div className="w-80 ml-auto mr-auto p-6 bg-white rounded-lg shadow-md mb-8 ">
+    <div className="mr-auto ml-auto w-80 pl-6  pt-6 pr-6 pb-20 bg-white rounded-lg shadow-md mb-4 ">
       <h2 className="text-xl font-semibold mb-4 text-gray-700">
         Evolução das Reservas por Hora
       </h2>

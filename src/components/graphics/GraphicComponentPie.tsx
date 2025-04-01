@@ -73,7 +73,7 @@ export const GraphicComponentPie = () => {
   };
 
   return (
-    <div  className=" w-80 h-90 pl-6 mt-8 pt-6 pr-6 pb-20 bg-white rounded-lg mb-4 shadow-md md:m-auto md:mt-10 pb-30">
+    <div  className=" m-auto w-80 h-90 pl-6 mt-8 pt-6 pr-6 pb-20 bg-white rounded-lg mb-4 shadow-md md:m-auto md:mt-10 pb-30">
       <h2 className="text-xl font-semibold mb-4 text-gray-700">
         Distribuição de Reservas Semana
       </h2>

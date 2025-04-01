@@ -13,6 +13,7 @@ import { GraphicComponentMonth } from "../components/graphics/GraphicComponentMo
 import SpinnerLoader from "../components/spiners/SpinnerLoad";
 import ModalDelete from "../components/modals/ModalDelete";
 import ModalEdit from "../components/modals/ModalEdite";
+import Spinner from "../components/spiners/Spinner";
 
 export const Reports = () => {
   const [loading, setLoading] = useState(true);
@@ -141,6 +142,14 @@ export const Reports = () => {
     if (pageNumber < 1 || pageNumber > totalPages) return;
     setCurrentPage(pageNumber);
   };
+
+  if (loading) {
+    return (
+      <div className="flex m-auto justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
