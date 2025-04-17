@@ -21,7 +21,7 @@ export const AddForm = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [quantity, setQuantity] = useState<number | any>();
-  const [observations, setObservations] = useState("");
+  const [observations, setObservations] = useState("Sem observações");
 
   const loadReserves = async () => {
     setLoading(true);
@@ -36,24 +36,43 @@ export const AddForm = () => {
     }
   };
 
+  const validateForm = () => {
+    if (!name || !phone || !date || !time || !quantity || quantity < 1) {
+      setErrorMessage("Preencha todos os campos obrigatórios e quantidade mínima de 1.");
+      return false;
+    }
+    return true;
+  };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
-
+  
+    if (!validateForm()) {
+      setLoading(false);
+      return;
+    }
+  
     try {
       await api.createNewReserve(
         name,
         phone,
-        date,
-        time,
+        date,   
+        time,    
         quantity,
-        observations.trim() || ""   
+        observations.trim() || " ",
       );
+     
+      setName("");
+      setPhone("");
+      setDate("");
+      setTime("");
+      setQuantity(1);
+      setObservations("");
       loadReserves();
     } catch (error: any) {
-      setErrorMessage(error.response?.data?.message || "Erro ao registrar a reserva.");
-      console.error("Erro ao registrar a reserva:", error);
+      setErrorMessage(error.response?.data?.error || "Erro ao registrar.");
     } finally {
       setLoading(false);
     }
@@ -150,7 +169,7 @@ export const AddForm = () => {
   }
 
   return (
-    <div className=" md:flex flex-row">
+    <div className=" md:flex flex-row max-w-[1200px] m-auto">
       <div>
         <div className="flex items-start relative py-5 sm:max-w-xl sm:mx-auto">
           <div className="relative px-4 py-0 bg-black mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
@@ -206,8 +225,9 @@ export const AddForm = () => {
                 <input
                   id="quantity"
                   value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  onChange={(e) => setQuantity(Math.max(1, Number(e.target.value)))}
                   type="number"
+                  min="1"
                   className="border rounded-lg px-2 py-2 mt-1 mb-3 text-sm w-full bg-white text-black focus:border-yellow-500 focus:ring-4 focus:ring-yellow-500 md:py-0"
                 />
                 <label htmlFor="observations" className="font-semibold text-md md:text-xl text-white pb-1 block">
