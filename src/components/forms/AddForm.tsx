@@ -21,14 +21,7 @@ export const AddForm = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [quantity, setQuantity] = useState<number | any>();
-  const [observations, setObservations] = useState("");
-
-  const [editName, setEditName] = useState("");
-  const [editPhone, setEditPhone] = useState("");
-  const [editDate, setEditDate] = useState("");
-  const [editTime, setEditTime] = useState("");
-  const [editQuantity, setEditQuantity] = useState<number | any>();
-  const [editObservations, setEditObservations] = useState("");
+  const [observations, setObservations] = useState("Sem observações");
 
   const loadReserves = async () => {
     setLoading(true);
@@ -49,7 +42,7 @@ export const AddForm = () => {
     setErrorMessage("");
 
     try {
-      await api.createNewReserve(name, phone, date, time, quantity, observations);
+      await api.createNewReserve(name, phone, date, time, quantity, observations.trim() ? observations :  undefined);
       loadReserves();
     } catch (error: any) {
       setErrorMessage(error.response?.data?.message || "Erro ao registrar a reserva.");
@@ -88,34 +81,44 @@ export const AddForm = () => {
   const requestEdit = (id: string) => {
     const reserve = reserves.find(r => r._id === id);
     setReserveToEdit(reserve);
-    setEditName(reserve.name); 
-    setEditPhone(reserve.phone);
-    setEditDate(reserve.dateReserve);
-    setEditTime(reserve.timeReserve);
-    setEditQuantity(reserve.quantity);
-    setEditObservations(reserve.observations);
     setShowModal(true); 
   };
 
-  const handleEdit = async () => {
+  const handleEdit = async (updatedData: {
+    name: string;
+    phone: string;
+    date: string;
+    time: string;
+    quantity: number;
+    observations: string;
+  }) => {
     if (!reserveToEdit) return;
-
+    
     const formatDateToBrazil = (date: string) => {
+      if (!date) {
+        throw new Error("Data inválida ou vazia.");
+      }
       const brazilTimeZone = 'America/Sao_Paulo';
-  
       const zonedDate = toZonedTime(date, brazilTimeZone);
-  
       return format(zonedDate, 'yyyy-MM-dd', { timeZone: brazilTimeZone });
     };
-  
-    const formattedDate = formatDateToBrazil(editDate); 
-
+    
+    const formattedDate = formatDateToBrazil(updatedData.date);
+    
     try {
-      await api.editReserve(reserveToEdit._id, editName, editPhone, formattedDate, editTime, editQuantity, editObservations)
+      await api.editReserve(
+        reserveToEdit._id, 
+        updatedData.name, 
+        updatedData.phone, 
+        formattedDate, 
+        updatedData.time, 
+        updatedData.quantity, 
+        updatedData.observations
+      );
       setReserves((prev) =>
         prev.map((reserve) =>
           reserve._id === reserveToEdit._id
-            ? { ...reserve, name: editName, phone: editPhone, dateReserve: formattedDate, timeReserve: editTime, quantity: editQuantity, observations: editObservations }
+            ? { ...reserve, ...updatedData, dateReserve: formattedDate }
             : reserve
         )
       );
@@ -237,7 +240,7 @@ export const AddForm = () => {
                 .slice()
                 .reverse()
                 .slice(0, 9)
-                .map((res: any, index) => (
+                .map((res, index) => (
                   <CardClient
                     key={index}
                     id={res._id}

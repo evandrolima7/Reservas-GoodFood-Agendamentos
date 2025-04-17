@@ -24,12 +24,12 @@ export const Reports = () => {
   const [reserveToEdit, setReserveToEdit] = useState<any | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [editName, setEditName] = useState("");
-  const [editPhone, setEditPhone] = useState("");
-  const [editDate, setEditDate] = useState("");
-  const [editTime, setEditTime] = useState("");
-  const [editQuantity, setEditQuantity] = useState<number | any>();
-  const [editObservations, setEditObservations] = useState("");
+  const [, setEditName] = useState("");
+  const [, setEditPhone] = useState("");
+  const [, setEditDate] = useState("");
+  const [, setEditTime] = useState("");
+  const [, setEditQuantity] = useState<number | any>();
+  const [, setEditObservations] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
   const reservationsPerPage = 6;
@@ -85,31 +85,41 @@ export const Reports = () => {
     setShowModal(true);
   };
 
-  const handleEdit = async () => {
+  const handleEdit = async (updatedData: {
+    name: string;
+    phone: string;
+    date: string;
+    time: string;
+    quantity: number;
+    observations: string;
+  }) => {
     if (!reserveToEdit) return;
-
+    
     const formatDateToBrazil = (date: string) => {
+      if (!date) {
+        throw new Error("Data inválida ou vazia.");
+      }
       const brazilTimeZone = 'America/Sao_Paulo';
       const zonedDate = toZonedTime(date, brazilTimeZone);
       return format(zonedDate, 'yyyy-MM-dd', { timeZone: brazilTimeZone });
     };
-
-    const formattedDate = formatDateToBrazil(editDate);
-
+    
+    const formattedDate = formatDateToBrazil(updatedData.date);
+    
     try {
       await api.editReserve(
-        reserveToEdit._id,
-        editName,
-        editPhone,
-        formattedDate,
-        editTime,
-        editQuantity,
-        editObservations
+        reserveToEdit._id, 
+        updatedData.name, 
+        updatedData.phone, 
+        formattedDate, 
+        updatedData.time, 
+        updatedData.quantity, 
+        updatedData.observations
       );
-      setReserves(prev =>
+      setReserves((prev) =>
         prev.map((reserve) =>
           reserve._id === reserveToEdit._id
-            ? { ...reserve, name: editName, phone: editPhone, dateReserve: formattedDate, timeReserve: editTime, quantity: editQuantity, observations: editObservations }
+            ? { ...reserve, ...updatedData, dateReserve: formattedDate }
             : reserve
         )
       );

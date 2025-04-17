@@ -52,13 +52,24 @@ export const api = {
         dateReserve: string,
         timeReserve: string,
         quantity: number,
-        observations: string
-    ) => {
-        let response = await http.post("/reserva", 
-            {name, phone, dateReserve, timeReserve,quantity, observations}
-        )
+        observations?: string
+      ) => {
+
+        const payload: any = { 
+          name, 
+          phone, 
+          dateReserve, 
+          timeReserve, 
+          quantity 
+        };
+      
+        if (observations && observations.trim() !== "") {
+          payload.observations = observations;
+        }
+      
+        let response = await http.post("/reserva", payload);
         return response;
-    },
+      },
     editReserve: async (
         id: string,
         name?: string,  

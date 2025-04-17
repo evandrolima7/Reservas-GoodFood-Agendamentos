@@ -46,12 +46,12 @@ export const Reserves = () => {
   const [reserveToDelete, setReserveToDelete] = useState<string | null>(null)
   const [reserveToEdit, setReserveToEdit] = useState<any | null>(null)
   const [errorMessage, setErrorMessage] = useState<string>("")
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [date, setDate] = useState("")
-  const [time, setTime] = useState("")
-  const [quantity, setQuantity] = useState<number | any>()
-  const [observations, setObservations] = useState("")
+  const [, setName] = useState("")
+  const [, setPhone] = useState("")
+  const [, setDate] = useState("")
+  const [, setTime] = useState("")
+  const [, setQuantity] = useState<number | any>()
+  const [, setObservations] = useState("")
 
   useEffect(() => {
     loadReserves()
@@ -123,40 +123,50 @@ const reservationDates = new Set(
     setReserveToDelete(null)
   }
 
-  const handleEdit = async () => {
-    if (!reserveToEdit) return
-
+  const handleEdit = async (updatedData: {
+    name: string;
+    phone: string;
+    date: string;
+    time: string;
+    quantity: number;
+    observations: string;
+  }) => {
+    if (!reserveToEdit) return;
+    
     const formatDateToBrazil = (date: string) => {
-      const brazilTimeZone = 'America/Sao_Paulo'
-      const zonedDate = toZonedTime(date, brazilTimeZone)
-      return format(zonedDate, 'yyyy-MM-dd', { timeZone: brazilTimeZone })
-    }
-
-    const formattedDate = formatDateToBrazil(date)
-
+      if (!date) {
+        throw new Error("Data inválida ou vazia.");
+      }
+      const brazilTimeZone = 'America/Sao_Paulo';
+      const zonedDate = toZonedTime(date, brazilTimeZone);
+      return format(zonedDate, 'yyyy-MM-dd', { timeZone: brazilTimeZone });
+    };
+    
+    const formattedDate = formatDateToBrazil(updatedData.date);
+    
     try {
       await api.editReserve(
-        reserveToEdit._id,
-        name,
-        phone,
-        formattedDate,
-        time,
-        quantity,
-        observations
-      )
-      setReserves(prev =>
-        prev.map(reserve =>
+        reserveToEdit._id, 
+        updatedData.name, 
+        updatedData.phone, 
+        formattedDate, 
+        updatedData.time, 
+        updatedData.quantity, 
+        updatedData.observations
+      );
+      setReserves((prev) =>
+        prev.map((reserve) =>
           reserve._id === reserveToEdit._id
-            ? { ...reserve, name, phone, dateReserve: formattedDate, timeReserve: time, quantity, observations }
+            ? { ...reserve, ...updatedData, dateReserve: formattedDate }
             : reserve
         )
-      )
-      setShowModal(false)
-      setReserveToEdit(null)
+      );
+      setShowModal(false);
+      setReserveToEdit(null);
     } catch (error) {
-      setErrorMessage("Erro ao editar reserva.")
+      setErrorMessage("Erro ao editar reserva.");
     }
-  }
+  };
 
   const handleCancelEdit = () => {
     setShowModal(false)
