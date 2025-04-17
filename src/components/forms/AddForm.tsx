@@ -21,7 +21,7 @@ export const AddForm = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [quantity, setQuantity] = useState<number | any>();
-  const [observations, setObservations] = useState("Sem observações");
+  const [observations, setObservations] = useState("");
 
   const loadReserves = async () => {
     setLoading(true);
@@ -42,7 +42,14 @@ export const AddForm = () => {
     setErrorMessage("");
 
     try {
-      await api.createNewReserve(name, phone, date, time, quantity, observations.trim() ? observations :  undefined);
+      await api.createNewReserve(
+        name,
+        phone,
+        date,
+        time,
+        quantity,
+        observations.trim() || ""   
+      );
       loadReserves();
     } catch (error: any) {
       setErrorMessage(error.response?.data?.message || "Erro ao registrar a reserva.");
